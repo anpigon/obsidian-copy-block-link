@@ -147,13 +147,13 @@ export default class MyPlugin extends Plugin {
   }
 
   handleHeading(file: TFile, block: HeadingCache, isEmbed: boolean) {
-    navigator.clipboard.writeText(
-      `${isEmbed ? "!" : ""}${this.app.fileManager.generateMarkdownLink(
-        file,
-        "",
-        "#" + sanitizeHeading(block.heading)
-      )}`
-    );
+
+      const heading = sanitizeHeading(block.heading);
+      const markdownLink = this.app.fileManager.generateMarkdownLink(file, "", "#" + heading);
+      const headingLink = markdownLink.replace(/\[([^\]]+)\]\(([^\)]+)\)/, (match, p1, p2) => {
+          return `[${p1}\#${heading}](${p2})`; 
+      });
+      navigator.clipboard.writeText(`${isEmbed ? "!" : ""}${headingLink}`);
   }
 
   handleBlock(
