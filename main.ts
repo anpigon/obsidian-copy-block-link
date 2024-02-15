@@ -22,6 +22,8 @@ i18next.init({
   },
 });
 
+
+
 function generateId(): string {
   return Math.random().toString(36).substring(2, 6);
 }
@@ -175,6 +177,7 @@ export default class MyPlugin extends Plugin {
       file,
       "",
       "#" + heading,
+      heading,
     );
     const headingLink = markdownLink.replace(
       /\[([^\]]+)\]\(([^\)]+)\)/,
@@ -182,6 +185,7 @@ export default class MyPlugin extends Plugin {
         return `[${p1}\#${heading}](${p2})`;
       },
     );
+    console.log('headingLink', headingLink)
     navigator.clipboard.writeText(`${isEmbed ? "!" : ""}${headingLink}`);
   }
 
