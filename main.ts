@@ -10,7 +10,7 @@ import {
 } from "obsidian";
 
 function generateId(): string {
-  return Math.random().toString(36).substr(2, 6);
+  return Math.random().toString(36).substring(2, 6);
 }
 
 const illegalHeadingCharsRegex = /[!"#$%&()*+,.:;<=>?@^`{|}~\/\[\]\\]/g;
@@ -75,7 +75,7 @@ export default class MyPlugin extends Plugin {
     this.addCommand({
       id: "copy-link-to-block",
       name: "Copy link to current block or heading",
-      editorCheckCallback: (isChecking, editor, view) => {
+      editorCheckCallback: (isChecking, editor, view: MarkdownView) => {
         return this.handleCommand(isChecking, editor, view, false);
       },
     });
@@ -83,7 +83,7 @@ export default class MyPlugin extends Plugin {
     this.addCommand({
       id: "copy-embed-to-block",
       name: "Copy embed to current block or heading",
-      editorCheckCallback: (isChecking, editor, view) => {
+      editorCheckCallback: (isChecking, editor, view: MarkdownView) => {
         return this.handleCommand(isChecking, editor, view, true);
       },
     });
