@@ -1,11 +1,30 @@
 {
   "name": "obsidian-sample-plugin",
-  "version": "0.12.0",
+  "version": "1.0.4",
   "description": "This is a sample plugin for Obsidian (https://obsidian.md)",
   "main": "main.js",
   "scripts": {
     "dev": "rollup --config rollup.config.js -w",
-    "build": "rollup --config rollup.config.js --environment BUILD:production"
+    "build": "rollup --config rollup.config.js --environment BUILD:production",
+    "release": "standard-version",
+    "release-test": "standard-version --dry-run",
+    "release-major": "standard-version --release-as major",
+    "release-major-test": "standard-version --dry-run --release-as major",
+    "release-minor": "standard-version --release-as minor",
+    "release-minor-test": "standard-version --dry-run --release-as minor",
+    "format": "prettier --write \"**/*.ts\"",
+    "format:check": "prettier --check \"**/*.ts\"",
+    "lint": "yarn format:check && eslint . --ext .ts && tsc --noEmit -skipLibCheck",
+    "lint:fix": "yarn format && eslint . --ext .ts --fix",
+    "prepare": "husky install"
+  },
+  "engines": {
+    "node": ">= 20",
+    "yarn": ">= 1.22",
+    "npm": "please use yarn"
+  },
+  "standard-version": {
+    "t": ""
   },
   "keywords": [],
   "author": "",
@@ -18,7 +37,8 @@
     "obsidian": "^0.12.0",
     "rollup": "^2.32.1",
     "tslib": "^2.2.0",
-    "typescript": "^4.2.4"
+    "typescript": "^4.2.4",
+    "standard-version": "^9.3.2"
   },
   "dependencies": {}
 }
