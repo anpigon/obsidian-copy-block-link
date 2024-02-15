@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+dependencies:
+  i18next:
+    specifier: ^23.8.2
+    version: 23.8.2
+
 devDependencies:
   "@types/node":
     specifier: ^20.11.17
@@ -78,6 +83,16 @@ packages:
       chalk: 2.4.2
       js-tokens: 4.0.0
     dev: true
+
+  /@babel/runtime@7.23.9:
+    resolution:
+      {
+        integrity: sha512-0CX6F+BI2s9dkUqr08KFrAIZgNFj75rdBU/DjCyYLIaV/quFjkk6T+EJ2LkZHyZTbEV4L5p97mNkUsHl2wLFAw==,
+      }
+    engines: { node: ">=6.9.0" }
+    dependencies:
+      regenerator-runtime: 0.14.1
+    dev: false
 
   /@codemirror/state@6.4.0:
     resolution:
@@ -1904,6 +1919,15 @@ packages:
     hasBin: true
     dev: true
 
+  /i18next@23.8.2:
+    resolution:
+      {
+        integrity: sha512-Z84zyEangrlERm0ZugVy4bIt485e/H8VecGUZkZWrH7BDePG6jT73QdL9EA1tRTTVVMpry/MgWIP1FjEn0DRXA==,
+      }
+    dependencies:
+      "@babel/runtime": 7.23.9
+    dev: false
+
   /ignore@5.3.1:
     resolution:
       {
@@ -2791,6 +2815,13 @@ packages:
       indent-string: 4.0.0
       strip-indent: 3.0.0
     dev: true
+
+  /regenerator-runtime@0.14.1:
+    resolution:
+      {
+        integrity: sha512-dYnhHh0nJoMfnkZs6GmmhFknAGRrLznOu5nc9ML+EJxGvrx6H7teuevqVqCuPcPK//3eDrrjQhehXVx9cnkGdw==,
+      }
+    dev: false
 
   /require-directory@2.1.1:
     resolution:

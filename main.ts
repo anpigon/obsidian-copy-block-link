@@ -1,4 +1,6 @@
+import i18next from "i18next";
 import {
+  moment,
   Editor,
   EditorPosition,
   HeadingCache,
@@ -8,6 +10,17 @@ import {
   SectionCache,
   TFile,
 } from "obsidian";
+import * as en from "./locales/en.json";
+import * as ko from "./locales/ko.json";
+
+i18next.init({
+  lng: moment.locale() || "en",
+  fallbackLng: "en",
+  resources: {
+    en: { translation: en },
+    ko: { translation: ko },
+  },
+});
 
 function generateId(): string {
   return Math.random().toString(36).substring(2, 6);
@@ -35,6 +48,8 @@ function shouldInsertAfter(block: ListItemCache | SectionCache) {
 
 export default class MyPlugin extends Plugin {
   async onload() {
+    console.info("loading block-link plugin");
+
     this.registerEvent(
       this.app.workspace.on("editor-menu", (menu, editor, view) => {
         const block = this.getBlock(editor, view.file);
@@ -51,25 +66,33 @@ export default class MyPlugin extends Plugin {
               view.file,
               editor,
               block as SectionCache | ListItemCache,
-              isEmbed
+              isEmbed,
             );
           }
         };
-
+        //
         menu.addItem((item) => {
           item
-            .setTitle(isHeading ? "Copy link to heading" : "Copy link to block")
+            .setTitle(
+              isHeading
+                ? i18next.t("copy_link_to_heading")
+                : i18next.t("copy_link_to_block"),
+            )
             .setIcon("links-coming-in")
             .onClick(() => onClick(false));
         });
 
         menu.addItem((item) => {
           item
-            .setTitle(isHeading ? "Copy heading embed" : "Copy block embed")
+            .setTitle(
+              isHeading
+                ? i18next.t("copy_heading_embed")
+                : i18next.t("copy_block_embed"),
+            )
             .setIcon("links-coming-in")
             .onClick(() => onClick(true));
         });
-      })
+      }),
     );
 
     this.addCommand({
@@ -93,7 +116,7 @@ export default class MyPlugin extends Plugin {
     isChecking: boolean,
     editor: Editor,
     view: MarkdownView,
-    isEmbed: boolean
+    isEmbed: boolean,
   ) {
     if (isChecking) {
       return !!this.getBlock(editor, view.file);
@@ -112,7 +135,7 @@ export default class MyPlugin extends Plugin {
         view.file,
         editor,
         block as SectionCache | ListItemCache,
-        isEmbed
+        isEmbed,
       );
     }
   }
@@ -147,20 +170,26 @@ export default class MyPlugin extends Plugin {
   }
 
   handleHeading(file: TFile, block: HeadingCache, isEmbed: boolean) {
-
-      const heading = sanitizeHeading(block.heading);
-      const markdownLink = this.app.fileManager.generateMarkdownLink(file, "", "#" + heading);
-      const headingLink = markdownLink.replace(/\[([^\]]+)\]\(([^\)]+)\)/, (match, p1, p2) => {
-          return `[${p1}\#${heading}](${p2})`; 
-      });
-      navigator.clipboard.writeText(`${isEmbed ? "!" : ""}${headingLink}`);
+    const heading = sanitizeHeading(block.heading);
+    const markdownLink = this.app.fileManager.generateMarkdownLink(
+      file,
+      "",
+      "#" + heading,
+    );
+    const headingLink = markdownLink.replace(
+      /\[([^\]]+)\]\(([^\)]+)\)/,
+      (match, p1, p2) => {
+        return `[${p1}\#${heading}](${p2})`;
+      },
+    );
+    navigator.clipboard.writeText(`${isEmbed ? "!" : ""}${headingLink}`);
   }
 
   handleBlock(
     file: TFile,
     editor: Editor,
     block: ListItemCache | SectionCache,
-    isEmbed: boolean
+    isEmbed: boolean,
   ) {
     const blockId = block.id;
 
@@ -170,8 +199,8 @@ export default class MyPlugin extends Plugin {
         `${isEmbed ? "!" : ""}${this.app.fileManager.generateMarkdownLink(
           file,
           "",
-          "#^" + blockId
-        )}`
+          "#^" + blockId,
+        )}`,
       );
     }
 
@@ -190,8 +219,8 @@ export default class MyPlugin extends Plugin {
       `${isEmbed ? "!" : ""}${this.app.fileManager.generateMarkdownLink(
         file,
         "",
-        "#^" + id
-      )}`
+        "#^" + id,
+      )}`,
     );
   }
 }
