@@ -1,7 +1,7 @@
 {
   "id": "obsidian-copy-block-link",
   "name": "Copy Block Link",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "minAppVersion": "1.4.11",
   "description": "Get links to blocks and headings from Obsidian's right click menu",
   "author": "mgmeyers",
