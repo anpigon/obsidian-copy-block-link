@@ -35,7 +35,7 @@ jobs:
         with:
           draft: false
           prerelease: false
-          name: ${{ steps.version.outputs.tag }}
+          name: ${{ github.ref }}
           tag_name: ${{ github.ref }}
           files: |
             main.js
